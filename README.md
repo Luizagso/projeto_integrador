@@ -96,14 +96,22 @@ Para desenvolvimento local ou se preferir não usar Docker:
 
 3. **Configure as variáveis de ambiente**
    
-   Crie um arquivo `.env` na raiz do projeto com:
+   O projeto já inclui um arquivo `.env` na raiz com as configurações padrão:
    ```env
-   NAME_DATABASE=bd_projeto_integrador
-   USERNAME_DATABASE=root
-   PASSWORD_DATABASE=sua_senha_mysql
-   HOST_DATABASE=localhost
-   PORT_NODE=3000
+      NAME_DATABASE=bd_projeto_integrador
+      USERNAME_DATABASE=root
+      PASSWORD_DATABASE=root
+      HOST_DATABASE=localhost
+
+      PORT_NODE=3000
+      PORT_FRONTEND=80
+      PORT_DATABASE=3306
+
+      MYSQL_ROOT_PASSWORD=root
+      MYSQL_DATABASE=bd_projeto_integrador
    ```
+   
+   Ajuste as variáveis conforme necessário para seu ambiente local.
 
 4. **Execute o backend**
    ```bash
