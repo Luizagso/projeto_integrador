@@ -15,12 +15,22 @@ export default function Cadastro() {
     message: "",
     show: false,
   });
+  const [alert, setAlert] = useState<{
+    show: boolean;
+    message: string;
+    type: string;
+  }>({
+    show: false,
+    message: "",
+    type: "",
+  });
   const navigate = useNavigate();
   const desktop = IsDesktop();
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     setError({ message: "", show: false });
+    setAlert({ show: false, message: "", type: "" });
 
     if (password !== confirmPassword) {
       setError({ show: true, message: "As senhas não coincidem." });
@@ -35,14 +45,24 @@ export default function Cadastro() {
       });
 
       if (response.status === 201 || response.status === 200) {
-        navigate("/login");
+        setAlert({
+          show: true,
+          message: "Conta criada com sucesso!",
+          type: "success",
+        });
+
+        // Aguarda 2 segundos antes de redirecionar para a página de login
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
         throw new Error("Falha no registro.");
       }
-    } catch (error) {
-      setError({
+    } catch (error: any) {
+      setAlert({
         show: true,
-        message: error as string,
+        message: error.response?.data?.message || "Erro ao criar conta. Tente novamente.",
+        type: "danger",
       });
     }
   }
@@ -50,12 +70,26 @@ export default function Cadastro() {
   const formCard = () => (
     <Card className="w-75 rounded-4 fw-bold">
       <Card.Body>
+        {/* Alerta para erros de validação local */}
+        {error.show && (
+          <CustomAlert
+            show={error.show}
+            message={error.message}
+            type="danger"
+            dismissible
+            onClose={() => setError({ show: false, message: "" })}
+          />
+        )}
+        
+        {/* Alerta para respostas da API */}
         <CustomAlert
-          message={error.message}
-          type="danger"
-          show={error.show}
-          dismissible={true}
-          onClose={() => setError({ message: "", show: false })}
+          show={alert.show}
+          message={alert.message}
+          type={alert.type}
+          dismissible
+          onClose={() =>
+            setAlert({ show: false, message: "", type: "" })
+          }
         />
         <Form onSubmit={handleRegister} className="text-start">
           <Form.Group controlId="formNome" className="mt-3">
