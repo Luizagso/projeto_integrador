@@ -31,7 +31,7 @@ Este projeto é uma aplicação web voltada para o gerenciamento de finanças pe
 
 ## 🚀 Como Executar o Projeto
 
-### 📦 Execução com Docker
+### 📦 Execução com Docker [Desatualizado]
 
 A forma mais simples de executar o projeto é utilizando Docker Compose, que automatiza a configuração de todos os serviços.
 
@@ -102,18 +102,26 @@ Para desenvolvimento local ou se preferir não usar Docker:
 
 3. **Configure as variáveis de ambiente**
 
-   O projeto já inclui um arquivo `.env` na raiz com as configurações padrão:
+   Inclua um arquivo `.env` na pasta backend com as configurações a seguir:
 
    ```env
+      # Configuração do Banco de Dados
       NAME_DATABASE=bd_projeto_integrador
       USERNAME_DATABASE=root
       PASSWORD_DATABASE=root
       HOST_DATABASE=localhost
-
+      
+      # Configuração do Ambiente
+      NODE_ENV=development
+      HOST_NODE=localhost
+      SECRET_KEY=CHAVECRIPTOGRAFIA
+      
+      # Configuração de Portas
       PORT_NODE=3000
       PORT_FRONTEND=80
       PORT_DATABASE=3306
-
+      
+      # Configuração do MySQL para Docker
       MYSQL_ROOT_PASSWORD=root
       MYSQL_DATABASE=bd_projeto_integrador
    ```
