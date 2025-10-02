@@ -133,7 +133,7 @@ export default function Cadastro() {
               type="submit"
               className="mt-4 mb-3 w-50 rounded-5 bg-green"
             >
-              <b>Criar conta</b>
+              <b>Criar Conta</b>
             </Button>
           </div>
         </Form>

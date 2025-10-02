@@ -19,3 +19,10 @@
   width: 100%;
   margin: 0;
 }
+
+.card {
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding-left: 30px;
+  padding-right: 30px;
+}

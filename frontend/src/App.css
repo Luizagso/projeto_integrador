@@ -86,3 +86,35 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+/* Estilos de hover para botões com classe 'bg-green' */
+.bg-green {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.bg-green:hover {
+  background-color: #004d0f !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bg-green:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de hover para botões padrão do Bootstrap com classe 'bg-green' */
+.btn.bg-green {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.bg-green:hover {
+  background-color: #004d0f !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn.bg-green:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

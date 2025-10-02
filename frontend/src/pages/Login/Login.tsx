@@ -84,7 +84,7 @@ export default function Login() {
                     onClick={event => handleLogin(event)}
                     type="submit"
                   >
-                    <b>Entre</b>
+                    <b>Entrar</b>
                   </Button>
                   <p className="my-0 mt-1">ou</p>
                   <Button
