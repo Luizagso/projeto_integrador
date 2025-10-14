@@ -42,6 +42,11 @@ export default function LandingPage() {
             dinheiro está sendo alocado. Mantenha suas finanças organizadas e
             tome decisões financeiras mais informadas com facilidade.
           </p>
+          <img
+            src="../public/organizacao.png"
+            alt="Segurança e Personalização"
+            className="card-image"
+          />
         </div>
         <div className="benefit-card">
           <b>Relatórios Completos e Personalizados</b>
@@ -51,6 +56,11 @@ export default function LandingPage() {
             para economizar com relatórios detalhados, como "Gastos por
             Categoria" e "Transações por Categoria".
           </p>
+          <img
+            src="../public/relatorios.png"
+            alt="Segurança e Personalização"
+            className="card-image"
+          />{" "}
         </div>
         <div className="benefit-card">
           <b>Segurança e Personalização</b>
@@ -61,6 +71,11 @@ export default function LandingPage() {
             garantindo que o sistema sempre reflita sua realidade financeira
             atual.
           </p>
+          <img
+            src="../public/seguranca.png"
+            alt="Segurança e Personalização"
+            className="card-image"
+          />
         </div>
       </section>
       <Footer />
