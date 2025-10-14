@@ -61,7 +61,9 @@ export default function Cadastro() {
     } catch (error: any) {
       setAlert({
         show: true,
-        message: error.response?.data?.message || "Erro ao criar conta. Tente novamente.",
+        message:
+          error.response?.data?.message ||
+          "Erro ao criar conta. Tente novamente.",
         type: "danger",
       });
     }
@@ -80,16 +82,14 @@ export default function Cadastro() {
             onClose={() => setError({ show: false, message: "" })}
           />
         )}
-        
+
         {/* Alerta para respostas da API */}
         <CustomAlert
           show={alert.show}
           message={alert.message}
           type={alert.type}
           dismissible
-          onClose={() =>
-            setAlert({ show: false, message: "", type: "" })
-          }
+          onClose={() => setAlert({ show: false, message: "", type: "" })}
         />
         <Form onSubmit={handleRegister} className="text-start">
           <Form.Group controlId="formNome" className="mt-3">
@@ -97,7 +97,7 @@ export default function Cadastro() {
             <Form.Control
               type="text"
               value={nome}
-              onChange={e => setNome(e.target.value)}
+              onChange={(e) => setNome(e.target.value)}
               required
             />
           </Form.Group>
@@ -106,7 +106,7 @@ export default function Cadastro() {
             <Form.Control
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </Form.Group>
@@ -115,7 +115,7 @@ export default function Cadastro() {
             <Form.Control
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </Form.Group>
@@ -124,15 +124,12 @@ export default function Cadastro() {
             <Form.Control
               type="password"
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button
-              type="submit"
-              className="mt-4 mb-3 w-50 rounded-5 bg-green"
-            >
+            <Button type="submit" className="mt-4 mb-3 w-50 rounded-5 bg-green">
               <b>Criar Conta</b>
             </Button>
           </div>

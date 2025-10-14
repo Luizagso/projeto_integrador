@@ -7,6 +7,7 @@ import {
 import Login from "../pages/Login/Login";
 import Cadastro from "../pages/Cadastro/Cadastro";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import LandingPage from "../pages/LandingPage/LandingPage";
 import { useAuth } from "../context/AuthContext";
 
 export default function AppRouter() {
@@ -18,7 +19,7 @@ export default function AppRouter() {
         <Routes>
           <Route
             path="/"
-            element={isAuthenticated ? <Dashboard /> : <Login />}
+            element={isAuthenticated ? <Dashboard /> : <LandingPage />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Cadastro />} />
