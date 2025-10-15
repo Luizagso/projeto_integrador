@@ -1,14 +1,14 @@
 /* NavigationBar.css */
 
 .custom-navbar {
-  background-color: #ffc107 !important; /* Cor branca */
+  background-color: #006414 !important; /* Cor branca */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
   padding: 0.5rem 1rem; /* Adiciona padding para espaçamento */
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
 }
 
 .navbar-logo {
-  width: 18%;/* Ajuste o tamanho conforme necessário */
+  width: 18%; /* Ajuste o tamanho conforme necessário */
 }
 
 .navbar-brand span {
@@ -26,7 +26,7 @@
 }
 
 .navbar-nav .nav-link::after {
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 2px;
