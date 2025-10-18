@@ -43,9 +43,37 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Incluir função de atualização de usuário
 
-// Incluir função de atualização de senha do usuário
+// Atualização do usuário
+router.put('/', verificarToken, async (req, res) => {
+    try {
+      const id  = req.userId; // ID do usuário autenticado
+      const { nome } = req.body;
+      
+      // Atualizar os dados do usuário
+      await Usuario.update({ nome }, { where: { id } });
+      res.sendStatus(204);
+    } catch (error) {
+      global.UTILS.handleSequelizeError(error, res);
+    }
+});
+
+// Atualização do usuário
+router.put('/password', verificarToken, async (req, res) => {
+    try {
+      const userId = req.userId;
+      const { senha } = req.body;
+
+      // Criptografar a senha
+      const hashedSenha = await bcrypt.hash(senha, 10);
+      
+      // Atualizar os dados do usuário
+      await Usuario.update({ senha: hashedSenha }, { where: { id: userId } });
+      res.sendStatus(204);
+    } catch (error) {
+      global.UTILS.handleSequelizeError(error, res);
+    }
+});
 
 router.get('/', verificarToken, async (req, res) => {
     try {

@@ -28,8 +28,12 @@ const ENVIRONMENT = {
         EMPTY_RESULT: 'Nenhum registro identificado.',
         INTERNAL_ERROR: 'Erro interno do servidor.',
         INVALID_REPORT: 'Tipo de relatório inválido.'
+    },
+    TRANSACTION_TYPES: 
+    {
+        1: 'DESPESA',
+        2: 'RECEITA'
     }
-    //Incluir tipos de transações
 }
 
 module.exports = ENVIRONMENT;
