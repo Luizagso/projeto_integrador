@@ -48,5 +48,6 @@ const formatDateTime =  function (_DATA) {
 }
 
 module.exports = {
-    handleSequelizeError
+    handleSequelizeError,
+    formatDateTime
 };

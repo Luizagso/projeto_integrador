@@ -5,11 +5,16 @@ const cors = require("cors");
 
 require("dotenv").config();
 
+// Configuração do ambiente global
+global.ENVIRONMENT = require("./environment/environment");
+global.UTILS = require("./environment/utils");
+
 const sequelize = require("./database/database");
 const authController = require("./controller/auth/authController");
 const usuarioController = require("./controller/usuarioController");
 const categoriaController = require("./controller/categoriaController");
 const TransacaoController = require("./controller/transacaoController");
+const relatorioController = require("./controller/relatorioController");
 
 const { verificarToken } = require("./middleware/authMiddleware");
 
@@ -26,6 +31,7 @@ app.use(verificarToken);
 // Rotas privadas
 app.use("/categorias", categoriaController);
 app.use("/transacoes", TransacaoController);
+app.use("/relatorio", relatorioController);
 
 const Transacao = require('./model/transacao/modelTransacao');
 const Categoria = require('./model/categoria/modelCategoria');
