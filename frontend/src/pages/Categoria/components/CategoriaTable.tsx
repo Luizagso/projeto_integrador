@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Col, Row, Table } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 

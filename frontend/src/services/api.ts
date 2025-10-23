@@ -1,9 +1,20 @@
 import axios, { type AxiosResponse, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
+// Determina a baseURL com base no ambiente
+const getBaseURL = () => {
+  // Verifica se está rodando em Docker (verificando se é frontend em container)
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost' && window.location.port === '80') {
+    // Em container Docker, o backend está no serviço chamado 'backend'
+    return 'http://backend:3000';
+  }
+  // Em ambiente de desenvolvimento local
+  return 'http://localhost:3000';
+};
+
 // Crie a instância do Axios
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // Atualize com seu URL
+  baseURL: getBaseURL(),
 });
 
 export interface IError {

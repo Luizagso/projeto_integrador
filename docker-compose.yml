@@ -1,13 +1,11 @@
-version: "3.8"
-
 services:
   mysql:
     image: mysql:8.0
     container_name: projeto_integrador_mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bd_projeto_integrador
     ports:
       - "3307:3306"
     volumes:
@@ -30,14 +28,16 @@ services:
       dockerfile: Dockerfile
     container_name: projeto_integrador_backend
     ports:
-      - "${PORT_NODE}:${PORT_NODE}"
+      - "3000:3000"
     environment:
       NODE_ENV: production
-      MYSQL_DATABASE: ${NAME_DATABASE}
-      USERNAME_DATABASE: ${USERNAME_DATABASE}
-      PASSWORD_DATABASE: ${PASSWORD_DATABASE}
+      NAME_DATABASE: bd_projeto_integrador
+      USERNAME_DATABASE: root
+      PASSWORD_DATABASE: root
       HOST_DATABASE: mysql
-      PORT_NODE: ${PORT_NODE}
+      PORT_DATABASE: 3306
+      PORT_NODE: 3000
+      SECRET_KEY: CHAVECRIPTOGRAFIA
     depends_on:
       mysql:
         condition: service_healthy
@@ -54,7 +54,7 @@ services:
       dockerfile: Dockerfile
     container_name: projeto_integrador_frontend
     ports:
-      - "${PORT_FRONTEND}:${PORT_FRONTEND}"
+      - "80:80"
     depends_on:
       - backend
     networks:
