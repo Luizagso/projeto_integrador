@@ -1,5 +1,6 @@
 const express = require('express');
 const sequelize = require('../database/database');
+const { initRabbitMQ, getChannel } = require('../middleware/rabbitmq');
 const Transacao = require('../model/transacao/modelTransacao');
 const CategoriaTransacao = require('../model/categoriaTransacao/modelCategoriaTransacao');
 const Categoria = require('../model/categoria/modelCategoria');
