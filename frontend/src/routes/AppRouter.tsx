@@ -12,6 +12,7 @@ import CategoriaCRUD from "../pages/Categoria/Categoria";
 import TransacaoCRUD from "../pages/Transacao/Transacao";
 import Usuario from "../pages/Usuario/Usuario";
 import Relatorios from "../pages/Relatorios/Relatorios";
+import NotificacaoList from "../pages/Notificacao/Notificacao"
 import { useAuth } from "../context/AuthContext";
 
 export default function AppRouter() {
@@ -46,6 +47,10 @@ export default function AppRouter() {
           <Route
             path="/relatorios"
             element={isAuthenticated ? <Relatorios /> : <Login />}
+          />
+          <Route
+            path="/notificacao"
+            element={isAuthenticated ? <NotificacaoList /> : <Login />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

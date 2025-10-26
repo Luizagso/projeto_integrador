@@ -33,6 +33,13 @@ const ENVIRONMENT = {
     {
         1: 'DESPESA',
         2: 'RECEITA'
+    },
+    NOTIFICATION_TYPES:
+    {
+        SUCESS: 'Sucesso',
+        ERROR: 'Erro',
+        INFO: 'Informação',
+        WARNING: 'Atenção'
     }
 }
 

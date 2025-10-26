@@ -80,6 +80,10 @@ export default function NavigationBar() {
                 Perfil
               </Dropdown.Item>
               <Dropdown.Divider />
+              <Dropdown.Item as={Link} to="/notificacao">
+                Notificações
+              </Dropdown.Item>
+              <Dropdown.Divider />
               <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

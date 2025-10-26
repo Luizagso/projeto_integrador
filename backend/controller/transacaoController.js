@@ -1,9 +1,10 @@
 const express = require('express');
 const sequelize = require('../database/database');
-const { initRabbitMQ, getChannel } = require('../middleware/rabbitmq');
 const Transacao = require('../model/transacao/modelTransacao');
 const CategoriaTransacao = require('../model/categoriaTransacao/modelCategoriaTransacao');
 const Categoria = require('../model/categoria/modelCategoria');
+const { enviarNotificacao } = require("../rabbitmq/producer");
+
 
 const router = express.Router();
 
@@ -35,6 +36,13 @@ router.post('/', async (req, res) => {
 
     // Commit da transação se tudo ocorrer bem
     await transaction.commit();
+
+    await enviarNotificacao({
+      idUsuario: userId,
+      titulo: "Nova transação criada",
+      mensagem: `Transação criada: ${transacaoData.descricao}.`,
+      tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
+    });
 
     res.status(201).json({ transacao, categorias });
   } catch (error) {
@@ -104,6 +112,13 @@ router.put('/id/:id', async (req, res) => {
     // Commit da transação se tudo ocorrer bem
     await transaction.commit();
 
+    await enviarNotificacao({
+      idUsuario: userId,
+      titulo: "Informações de transação atualizadas",
+      mensagem: `As informações da transação ${transacao.descricao} foram atualizados.`,
+      tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
+    });
+
     res.status(204).json(transacaoData);
   } catch (error) {
 
@@ -136,6 +151,13 @@ router.delete('/id/:id', async (req, res) => {
     // Excluir a transação e as categorias de transação associadas
     await CategoriaTransacao.destroy({ where: { idTransacao: transacaoId } });
     await Transacao.destroy({ where: { id: transacaoId } });
+
+    await enviarNotificacao({
+      idUsuario: userId,
+      titulo: "Transação deletada",
+      mensagem: `A transação ${transacao.descricao} foi excluída.`,
+      tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
+    });
 
     res.sendStatus(204);
   } catch (error) {

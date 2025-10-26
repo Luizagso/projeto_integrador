@@ -15,6 +15,7 @@ const usuarioController = require("./controller/usuarioController");
 const categoriaController = require("./controller/categoriaController");
 const TransacaoController = require("./controller/transacaoController");
 const relatorioController = require("./controller/relatorioController");
+const notificacaoController = require("./controller/notificacaoController");
 
 const { verificarToken } = require("./middleware/authMiddleware");
 
@@ -32,6 +33,7 @@ app.use(verificarToken);
 app.use("/categorias", categoriaController);
 app.use("/transacoes", TransacaoController);
 app.use("/relatorio", relatorioController);
+app.use("/notificacao", notificacaoController);
 
 const Transacao = require('./model/transacao/modelTransacao');
 const Categoria = require('./model/categoria/modelCategoria');
