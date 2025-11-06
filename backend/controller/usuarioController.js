@@ -75,6 +75,20 @@ router.put('/password', verificarToken, async (req, res) => {
     }
 });
 
+// Atualização do limite do usuário
+router.put('/limite', verificarToken, async (req, res) => {
+    try {
+      const userId = req.userId;
+      const { limite } = req.body;
+      
+      // Atualizar o limite do usuário
+      await Usuario.update({ limite }, { where: { id: userId } });
+      res.sendStatus(204);
+    } catch (error) {
+      global.UTILS.handleSequelizeError(error, res);
+    }
+});
+
 router.get('/', verificarToken, async (req, res) => {
     try {
         const userId = req.userId;

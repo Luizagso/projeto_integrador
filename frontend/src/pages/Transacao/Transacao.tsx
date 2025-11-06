@@ -5,6 +5,7 @@ import TransacaoTable from "./components/TransacaoTable";
 import Template from "../../components/Template/Template";
 import formatToCoin from "../../utils/formatToCoin";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
+import { FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
 
 interface Transacao {
   id: number;
@@ -32,15 +33,31 @@ export default function TransacaoCRUD() {
   const [alert, setAlert] = useState({ show: false, message: "", type: "" });
   const [totalReceitas, setTotalReceitas] = useState(0);
   const [totalDespesas, setTotalDespesas] = useState(0);
+  const [limite, setLimite] = useState<number | "">("");
+  const [editingLimite, setEditingLimite] = useState(false);
+  const [newLimite, setNewLimite] = useState<number | "">("");
 
   useEffect(() => {
     loadTransacoes();
     loadCategorias();
+    loadUserData();
   }, []);
 
   useEffect(() => {
     calcularTotais();
   }, [transacoes]);
+
+  const loadUserData = async () => {
+    try {
+      const response = await api.get("/usuarios");
+      if (response.data.limite !== null) {
+        setLimite(response.data.limite);
+        setNewLimite(response.data.limite);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar dados do usuário", error);
+    }
+  };
 
   const loadTransacoes = async () => {
     try {
@@ -121,6 +138,35 @@ export default function TransacaoCRUD() {
     return totalReceitas - totalDespesas;
   };
 
+  const handleEditLimite = () => {
+    setEditingLimite(true);
+    setNewLimite(limite);
+  };
+
+  const handleSaveLimite = async () => {
+    try {
+      await api.put("/usuarios/limite", { limite: newLimite });
+      setLimite(newLimite);
+      setEditingLimite(false);
+      setAlert({
+        message: "Limite atualizado com sucesso!",
+        type: "success",
+        show: true,
+      });
+    } catch (error) {
+      setAlert({
+        message: "Erro ao atualizar limite",
+        type: "danger",
+        show: true,
+      });
+    }
+  };
+
+  const handleCancelLimite = () => {
+    setEditingLimite(false);
+    setNewLimite(limite);
+  };
+
   return (
     <Template>
       <div className="container mt-5">
@@ -137,7 +183,7 @@ export default function TransacaoCRUD() {
           </button>
         </div>
         <div className="row mb-3">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Total Receitas</h5>
@@ -147,7 +193,7 @@ export default function TransacaoCRUD() {
               </div>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Total Despesas</h5>
@@ -157,7 +203,7 @@ export default function TransacaoCRUD() {
               </div>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Saldo</h5>
@@ -168,6 +214,50 @@ export default function TransacaoCRUD() {
                 >
                   {formatToCoin(calcularSaldo())}
                 </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="card">
+              <div className="card-body d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 className="card-title">Limite</h5>
+                  {editingLimite ? (
+                    <div className="d-flex align-items-center">
+                      <input
+                        type="number"
+                        className="form-control form-control-sm me-2"
+                        value={newLimite}
+                        onChange={(e) => setNewLimite(parseFloat(e.target.value) || "")}
+                        style={{ width: "100px" }}
+                      />
+                      <button 
+                        className="btn btn-success btn-sm me-1 py-1 px-2"
+                        onClick={handleSaveLimite}
+                      >
+                        <FaCheck size={12} />
+                      </button>
+                      <button 
+                        className="btn btn-secondary btn-sm py-1 px-2"
+                        onClick={handleCancelLimite}
+                      >
+                        <FaTimes size={12} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-between align-items-center">
+                      <p className="card-text mb-0">
+                        {limite !== "" ? formatToCoin(limite) : "Não definido"}
+                      </p>
+                      <button 
+                        className="btn btn-outline-primary btn-sm py-1 px-2 ms-2"
+                        onClick={handleEditLimite}
+                      >
+                        <FaPencilAlt size={12} />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
