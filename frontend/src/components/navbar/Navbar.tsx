@@ -14,6 +14,8 @@ export default function NavigationBar() {
   const { isAuthenticated, logout } = useAuth();
   const [name, setName] = React.useState("");
   const [unreadCount, setUnreadCount] = React.useState(0);
+  const [previousUnreadCount, setPreviousUnreadCount] = React.useState(0);
+  const [showNotificationEffect, setShowNotificationEffect] = React.useState(false);
 
   async function fetchUserData() {
     try {
@@ -28,13 +30,22 @@ export default function NavigationBar() {
     try {
       const response = await api.get("/notificacao/all");
       const unread = response.data.filter((notif: any) => !notif.lida).length;
+      
+      // Verifica se o número de notificações aumentou
+      if (unread > previousUnreadCount && previousUnreadCount !== 0) {
+        setShowNotificationEffect(true);
+        // Remove o efeito após 1 segundo
+        setTimeout(() => setShowNotificationEffect(false), 500);
+      }
+      
+      setPreviousUnreadCount(unreadCount);
       setUnreadCount(unread);
     } catch (error) {
       console.error("Erro ao buscar notificações", error);
     }
   }
 
-  // Função para atualizar notificações a cada 30 segundos
+  // Função para atualizar notificações a cada 10 segundos
   React.useEffect(() => {
     fetchUserData();
     if (isAuthenticated) {
@@ -43,12 +54,12 @@ export default function NavigationBar() {
       // Configura um intervalo para atualizar as notificações
       const interval = setInterval(() => {
         fetchUnreadNotifications();
-      }, 30000); // 30 segundos
+      }, 500); // 10 segundos (reduzido de 30 para melhor experiência)
       
       // Limpa o intervalo quando o componente for desmontado
       return () => clearInterval(interval);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, unreadCount, previousUnreadCount]);
 
   return (
     <Navbar expand="lg" className="custom-navbar">
@@ -94,7 +105,10 @@ export default function NavigationBar() {
           {isAuthenticated && (
             <Nav className="mx-3 position-relative">
               <Nav.Link as={Link} to="/notificacao" className="d-flex align-items-center position-relative notification-bell">
-                <IoNotificationsOutline size={24} className={unreadCount > 0 ? "bell-animation" : ""} />
+                <IoNotificationsOutline 
+                  size={24} 
+                  className={`${unreadCount > 0 ? "bell-animation" : ""} ${showNotificationEffect ? "new-notification" : ""}`} 
+                />
                 {unreadCount > 0 && (
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge" 
                         style={{ fontSize: '0.6rem', padding: '0.25em 0.4em' }}>
