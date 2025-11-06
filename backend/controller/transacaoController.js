@@ -3,10 +3,43 @@ const sequelize = require('../database/database');
 const Transacao = require('../model/transacao/modelTransacao');
 const CategoriaTransacao = require('../model/categoriaTransacao/modelCategoriaTransacao');
 const Categoria = require('../model/categoria/modelCategoria');
+const Usuario = require('../model/usuario/modelUsuario');
 const { enviarNotificacao } = require("../rabbitmq/producer");
 
 
 const router = express.Router();
+
+// Função auxiliar para verificar se o limite foi atingido
+async function verificarLimiteUsuario(userId) {
+  try {
+    // Obter o usuário e seu limite
+    const usuario = await Usuario.findByPk(userId);
+    if (!usuario || usuario.limite === null) {
+      return; // Usuário não tem limite definido
+    }
+
+    // Calcular o total de despesas
+    const totalDespesas = await Transacao.sum('valor', { 
+      where: { 
+        idUsuario: userId, 
+        tipo: "1" // Despesas
+      } 
+    }) || 0;
+
+    // Verificar se o total de despesas atingiu ou ultrapassou o limite
+    if (totalDespesas >= usuario.limite) {
+      // Enviar notificação
+      await enviarNotificacao({
+        idUsuario: userId,
+        titulo: "Limite atingido!",
+        mensagem: `Você atingiu seu limite de despesas definido em ${usuario.limite}. Seu total de despesas atual é ${totalDespesas}.`,
+        tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.WARNING
+      });
+    }
+  } catch (error) {
+    console.error("Erro ao verificar limite do usuário:", error);
+  }
+}
 
 router.post('/', async (req, res) => {
   let transaction;
@@ -43,6 +76,11 @@ router.post('/', async (req, res) => {
       mensagem: `Transação criada: ${transacaoData.descricao}.`,
       tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
     });
+
+    // Verificar se o limite foi atingido após criar a transação
+    if (transacaoData.tipo === "1") { // Apenas para despesas
+      await verificarLimiteUsuario(userId);
+    }
 
     res.status(201).json({ transacao, categorias });
   } catch (error) {
@@ -119,6 +157,11 @@ router.put('/id/:id', async (req, res) => {
       tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
     });
 
+    // Verificar se o limite foi atingido após atualizar a transação
+    if (transacaoData.transacao.tipo === "1") { // Apenas para despesas
+      await verificarLimiteUsuario(userId);
+    }
+
     res.status(204).json(transacaoData);
   } catch (error) {
 
@@ -158,6 +201,9 @@ router.delete('/id/:id', async (req, res) => {
       mensagem: `A transação ${transacao.descricao} foi excluída.`,
       tipo: global.ENVIRONMENT.NOTIFICATION_TYPES.SUCESS
     });
+
+    // Verificar se o limite ainda é válido após excluir a transação
+    await verificarLimiteUsuario(userId);
 
     res.sendStatus(204);
   } catch (error) {
