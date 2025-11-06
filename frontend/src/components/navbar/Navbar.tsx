@@ -6,12 +6,14 @@ import { BsGraphUpArrow } from "react-icons/bs";
 import { CiShoppingTag } from "react-icons/ci";
 import { TbArrowsTransferDown } from "react-icons/tb";
 import { BsFileEarmarkRuled } from "react-icons/bs";
+import { IoNotificationsOutline } from "react-icons/io5";
 import "./NavigationBar.css"; // Importe o arquivo CSS
 import api from "../../services/api";
 
 export default function NavigationBar() {
   const { isAuthenticated, logout } = useAuth();
   const [name, setName] = React.useState("");
+  const [unreadCount, setUnreadCount] = React.useState(0);
 
   async function fetchUserData() {
     try {
@@ -22,9 +24,31 @@ export default function NavigationBar() {
     }
   }
 
+  async function fetchUnreadNotifications() {
+    try {
+      const response = await api.get("/notificacao/all");
+      const unread = response.data.filter((notif: any) => !notif.lida).length;
+      setUnreadCount(unread);
+    } catch (error) {
+      console.error("Erro ao buscar notificações", error);
+    }
+  }
+
+  // Função para atualizar notificações a cada 30 segundos
   React.useEffect(() => {
     fetchUserData();
-  }, []);
+    if (isAuthenticated) {
+      fetchUnreadNotifications();
+      
+      // Configura um intervalo para atualizar as notificações
+      const interval = setInterval(() => {
+        fetchUnreadNotifications();
+      }, 30000); // 30 segundos
+      
+      // Limpa o intervalo quando o componente for desmontado
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated]);
 
   return (
     <Navbar expand="lg" className="custom-navbar">
@@ -66,6 +90,20 @@ export default function NavigationBar() {
               </>
             )}
           </Nav>
+
+          {isAuthenticated && (
+            <Nav className="mx-3 position-relative">
+              <Nav.Link as={Link} to="/notificacao" className="d-flex align-items-center position-relative notification-bell">
+                <IoNotificationsOutline size={24} className={unreadCount > 0 ? "bell-animation" : ""} />
+                {unreadCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge" 
+                        style={{ fontSize: '0.6rem', padding: '0.25em 0.4em' }}>
+                    {unreadCount}
+                  </span>
+                )}
+              </Nav.Link>
+            </Nav>
+          )}
 
           <Dropdown title={"Usuário"} id="basic-nav-dropdown">
             <Dropdown.Toggle

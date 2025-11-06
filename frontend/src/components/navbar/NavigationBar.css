@@ -1,27 +1,60 @@
 /* NavigationBar.css */
 
 .custom-navbar {
-  background-color: #006414 !important; /* Cor branca */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
-  padding: 0.5rem 1rem; /* Adiciona padding para espaçamento */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+  background-color: #006414 !important; /* Verde padrão do Bootstrap */
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  padding: 0.5rem 1rem;
 }
 
 .navbar-logo {
-  width: 18%; /* Ajuste o tamanho conforme necessário */
+  height: 40px;
 }
 
-.navbar-brand span {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 10px;
-  color: #000;
+.dropdown-toggle::after {
+  display: none;
+}
+
+.notification-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+.bell-animation {
+  animation: bell-ring 0.5s ease;
+}
+
+@keyframes bell-ring {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(5deg); }
+  30% { transform: rotate(-5deg); }
+  45% { transform: rotate(4deg); }
+  60% { transform: rotate(-4deg); }
+  75% { transform: rotate(2deg); }
+  85% { transform: rotate(-2deg); }
+  92% { transform: rotate(1deg); }
+  100% { transform: rotate(0); }
 }
 
 .navbar-nav .nav-link {
-  color: #000000 !important; /* Cor preta para os links */
+  color: #ffffff !important;
   font-weight: bold;
-  margin: 0 15px; /* Espaçamento entre os links */
+  margin: 0 15px;
   position: relative;
 }
 
@@ -43,7 +76,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-  color: #ffffff !important; /* Cor amarela no hover */
+  color: #ffffff !important;
 }
 
 .navbar-collapse {
