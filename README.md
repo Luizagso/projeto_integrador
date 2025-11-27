@@ -31,7 +31,7 @@ Este projeto é uma aplicação web voltada para o gerenciamento de finanças pe
 
 ## 🚀 Como Executar o Projeto
 
-### 📦 Execução com Docker [Desatualizado]
+### 📦 Execução com Docker
 
 A forma mais simples de executar o projeto é utilizando Docker Compose, que automatiza a configuração de todos os serviços.
 
@@ -67,7 +67,7 @@ A forma mais simples de executar o projeto é utilizando Docker Compose, que aut
    - **Backend**: http://localhost:3000
    - **MySQL**: localhost:3307 (porta externa)
 
-### 💻 Execução Local
+### 💻 Execução Local [Desatualizado]
 
 Para desenvolvimento local ou se preferir não usar Docker:
 
@@ -165,12 +165,21 @@ Para desenvolvimento local ou se preferir não usar Docker:
 ```
 projeto_integrador/
 ├── backend/
+│   ├── controller/
+│   ├── model/
+│   ├── middleware/
+│   ├── database/
+│   ├── rabbitmq/
 │   ├── Dockerfile
 │   ├── index.js
 │   ├── package.json
 │   └── package-lock.json
 ├── frontend/
 │   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── routes/
 │   ├── Dockerfile
 │   ├── package.json
 │   ├── vite.config.ts
