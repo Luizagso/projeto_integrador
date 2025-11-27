@@ -160,6 +160,15 @@ Para desenvolvimento local ou se preferir não usar Docker:
 
 ---
 
+## 🏛️ Arquitetura do Projeto
+
+MVC (Model-View-Controller) é um padrão de arquitetura que separa a aplicação em três componentes distintos:
+ - Model: Responsável pela manipulação dos dados e regras de negócio
+ - View: Responsável pela interface com o usuário
+ - Controller: Responsável por intermediar a comunicação entre Model e View
+
+<img width="1048" height="440" alt="image" src="https://github.com/user-attachments/assets/698a28eb-8b7d-424f-9310-3be9ed5b3782" />
+
 ## 📁 Estrutura do Projeto
 
 ```
